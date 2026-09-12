@@ -49,9 +49,7 @@
 - React Router 7
 - SCSS
 - DummyJSON API
-- 
-<div align="center">
-
+ 
 ---
 
 ## Quick start
