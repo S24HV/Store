@@ -26,7 +26,7 @@
 | [Open site](https://s24hv.github.io/Store/) | Products + sort + pagination |
 
   
-<img width="2559" height="1439" alt="screenshot1" src="https://github.com/user-attachments/assets/d8debe56-0a71-4956-a26e-24d4b6e38ec6" />` --- `<img width="2559" height="1439" alt="screenshot3" src="https://github.com/user-attachments/assets/9245bf64-7142-481e-90d6-6b34cbedf0ea" />
+<img width="2000" height="1000" alt="screenshot1" src="https://github.com/user-attachments/assets/d8debe56-0a71-4956-a26e-24d4b6e38ec6" />`  `<img width="2000" height="1000" alt="screenshot3" src="https://github.com/user-attachments/assets/9245bf64-7142-481e-90d6-6b34cbedf0ea" />
 
 ---
 
