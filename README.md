@@ -52,15 +52,6 @@
 - 
 <div align="center">
 
-## License
-
-[![License: MIT](<img width="360" height="360" alt="mit" src="https://github.com/user-attachments/assets/1adcc648-a2c0-4ce1-9dcf-117e4d94960e" />
-)](./LICENSE)
-<br />
-Released under the [MIT License](./LICENSE).
-
-</div>
-
 ---
 
 ## Quick start
