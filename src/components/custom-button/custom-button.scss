@@ -1,0 +1,38 @@
+.base-button {
+  color: black;
+  cursor: pointer;
+  padding: 10px 15px;
+  font-size: 15px;
+  text-transform: uppercase;
+  border: 2px solid lightgray;
+  border-radius: 17px;
+  background: none;
+  font-weight: bold;
+  user-select: none;
+
+  &:hover {
+    filter: brightness(80%);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    background: rgba(0, 0, 0, 0.07);
+    color: #00000075;
+
+    &:hover {
+      filter: none;
+    }
+
+    &:active {
+      transform: none;
+    }
+  }
+}
+
+.base-button--color {
+  color: var(--button-color);
+  border-color: var(--button-color);
+}

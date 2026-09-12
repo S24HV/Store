@@ -1,0 +1,31 @@
+.header-container {
+  z-index: 100;
+  position: sticky;
+  top: 0;
+  height: 60px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media screen and (max-width: 650px) {
+    height: 45px;
+  }
+}
+
+.title {
+  letter-spacing: 4px;
+  text-align: center;
+  font-size: 32px;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  user-select: none;
+
+  @media screen and (max-width: 650px) {
+    letter-spacing: 2px;
+    font-size: 24px;
+  }
+}
