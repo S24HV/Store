@@ -49,6 +49,16 @@
 - React Router 7
 - SCSS
 - DummyJSON API
+- 
+<div align="center">
+
+## License
+
+[![License: MIT](https://shields.io)](./LICENSE)
+<br />
+Released under the [MIT License](./LICENSE).
+
+</div>
 
 ---
 
