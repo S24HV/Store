@@ -1,50 +1,61 @@
-# React + TypeScript + Vite
+# S24HV Store
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
+  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/Vite-6-646CFF?style=for-the-badge&logo=vite&logoColor=white" />
+  <img src="https://img.shields.io/badge/SCSS-hotpink?style=for-the-badge&logo=sass&logoColor=white" />
+</p>
 
-Currently, two official plugins are available:
+<p align="center">
+  <b>Modern online store</b> with a dark landing page, catalog, sorting and product pages.
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<p align="center">
+  <a href="https://s24hv.github.io/Store/">
+    <img src="https://img.shields.io/badge/Live%20Demo-S24HV%20Store-black?style=for-the-badge" />
+  </a>
+</p>
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Preview
 
-- Configure the top-level `parserOptions` property like this:
+| Cover | Catalog |
+|:---:|:---:|
+| [Open site](https://s24hv.github.io/Store/) | Products + sort + pagination |
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+> Tip: after deploy you can add real screenshots here  
+> (`docs/cover.png`, `docs/catalog.png`)
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+---
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Features
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- Dark minimal cover page (`S24HV`)
+- Product catalog with pagination
+- Sort by name / price / stock
+- Product detail page with image gallery
+- Responsive layout
+- Deployed on GitHub Pages
+
+---
+
+## Tech stack
+
+- React 19
+- TypeScript
+- Vite 6
+- React Router 7
+- SCSS
+- DummyJSON API
+
+---
+
+## Quick start
+
+```bash
+git clone https://github.com/S24HV/Store.git
+cd Store
+npm install
+npm run dev
