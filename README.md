@@ -54,7 +54,7 @@
 
 ---
 
-## Quick start
+##  Quick start
 
 ```bash
 git clone https://github.com/S24HV/Store.git
