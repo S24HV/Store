@@ -1,60 +1,83 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import { discoundPrice } from "../../utils/helper-functions";
 import { getOneProduct } from "../../services/products.requests";
 import { IProduct } from "../../types/products.api.interface";
-
+import { useCart } from "../../context/cart.context";
 import ImageSlide from "../../components/image-slide/image-slide.component";
-
 import "./item-page.scss";
 
-type CategoryRouteParams = {
-  id: string;
-};
-
 const ItemPage = () => {
-  const { id } = useParams<keyof CategoryRouteParams>() as CategoryRouteParams;
-  const itemId = Number(id);
+  const { id } = useParams<{ id: string }>();
   const [item, setItem] = useState<IProduct | null>(null);
-  const nav = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const { addToCart, setIsCartOpen } = useCart();
 
   useEffect(() => {
-    (async () => {
-      const productRes = await getOneProduct(itemId);
-      setItem(productRes);
-    })();
-  }, []);
+    const fetchProduct = async () => {
+      try {
+        const product = await getOneProduct(Number(id));
+        setItem(product);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  if (loading) {
+    return <div className="item-loading">Loading...</div>;
+  }
+
+  if (!item) {
+    return <div className="item-loading">Product not found</div>;
+  }
+
+  const finalPrice = item.discountPercentage
+    ? discoundPrice(item.price, item.discountPercentage)
+    : item.price.toString();
+
+  const handleAddToCart = () => {
+    addToCart(item);
+    setIsCartOpen(true);
+  };
 
   return (
-    <div className="item-page-container">
-      <button
-        className="item-back-btn"
-        onClick={() => nav(-1)}>
-        Back to results
+    <div className="item-page">
+      <button className="back-btn" onClick={() => navigate(-1)}>
+        ← BACK
       </button>
-      <ImageSlide images={item?.images || []} />
-      <h1 className="title">{item?.title}</h1>
-      <div className="price-info-control-element ">
-        <div className="item-price-container ">
-          <span className="item-discount-price">
-            $
-            {(item?.discountPercentage &&
-              discoundPrice(item?.price || 0, item?.discountPercentage || 0)) ||
-              item?.price}
-          </span>
-          {item?.discountPercentage && (
-            <>
-              <span className="item-price">${item?.price}</span>
-              <span className="item-discount">
-                -{item?.discountPercentage}%
-              </span>
-            </>
-          )}
+
+      <div className="item-content">
+        <div className="item-gallery">
+          <ImageSlide images={item.images || []} />
+        </div>
+
+        <div className="item-details">
+          <h1 className="item-title">{item.title}</h1>
+
+          <div className="item-price-block">
+            <span className="current-price">${finalPrice}</span>
+            {item.discountPercentage > 0 && (
+              <span className="old-price">${item.price}</span>
+            )}
+          </div>
+
+          <p className="item-description">{item.description}</p>
+
+          <div className="item-meta">
+            <span>{item.stock} in stock</span>
+          </div>
+
+          <button className="add-to-bag" onClick={handleAddToCart}>
+            ADD TO BAG
+          </button>
         </div>
       </div>
-      <div className="item-left">{item?.stock} items left</div>
-      <div className="item-description-container ">{item?.description}</div>
     </div>
   );
 };

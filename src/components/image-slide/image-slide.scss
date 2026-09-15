@@ -1,92 +1,80 @@
-.item-img-container {
-  height: 400px;
-  max-width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
-
-  @media screen and (max-width: 650px) {
-    height: 300px;
-    padding: 10px;
-  }
+.gallery {
+  width: 100%;
 }
 
-.item-img-control-container {
+.main-image {
   position: relative;
-  width: 90%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  @media screen and (max-width: 650px) {
-    width: 100%;
-  }
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: #0a0a0a;
+  overflow: hidden;
+  margin-bottom: 16px;
 }
 
-.item-img-control-btn {
+.main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.nav-btn {
   position: absolute;
-  color: rgba(0, 0, 0, 0.2);
-  font-size: 100px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 42px;
   cursor: pointer;
-  user-select: none;
-  width: 400px;
-
-  &:hover {
-    color: grey;
-  }
-
-  &:active {
-    transform: scale(0.9);
-  }
-
-  @media screen and (max-width: 900px) {
-    width: 300px;
-  }
-
-  @media screen and (max-width: 650px) {
-    width: 150px;
-    font-size: 70px;
-  }
-
-  &.left {
-    left: 0;
-  }
-
-  &.right {
-    right: 0;
-    text-align: end;
-  }
+  padding: 20px;
+  opacity: 0.4;
+  transition: opacity 0.25s ease;
+  z-index: 2;
 }
 
-.item-img {
-  max-width: 100%;
-  max-height: 450px;
-
-  @media screen and (max-width: 650px) {
-    max-height: 350px;
-  }
+.nav-btn:hover {
+  opacity: 1;
 }
 
-.img-selected-container {
+.nav-btn.prev {
+  left: 0;
+}
+
+.nav-btn.next {
+  right: 0;
+}
+
+.thumbnails {
   display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 10px;
-  padding-top: 20px;
+  overflow-x: auto;
+  padding-bottom: 4px;
 }
 
-.img-selector {
-  background: lightgray;
-  padding: 8px;
-  width: 0;
-  border-radius: 50%;
-  transition: 500ms;
+.thumb {
+  flex-shrink: 0;
+  width: 72px;
+  height: 90px;
+  border: 1px solid transparent;
+  background: #111;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  transition: border-color 0.25s ease;
+}
 
-  &.selected {
-    width: 20px;
-    border-radius: 20px;
-    background: #a7a7a7;
-  }
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.thumb.active {
+  border-color: #fff;
+}
+
+.thumb:hover {
+  border-color: #555;
 }

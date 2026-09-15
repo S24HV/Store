@@ -1,63 +1,54 @@
-import React, { useState, FC, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import "./image-slide.scss";
 
-interface IImageSlideProps {
+interface Props {
   images: string[];
 }
 
-const ImageSlide: FC<IImageSlideProps> = ({ images }) => {
-  const [imageSelected, setImageSelected] = useState(images[0]);
+const ImageSlide: FC<Props> = ({ images }) => {
+  const [current, setCurrent] = useState(0);
 
-  useEffect(() => setImageSelected(images[0]), [images]);
+  useEffect(() => {
+    setCurrent(0);
+  }, [images]);
 
-  const slidePage = (action: string) => {
-    switch (action) {
-      case "next":
-        if (imageSelected === images[images.length - 1]) {
-          setImageSelected(images[0]);
-          return;
-        }
-        setImageSelected(images[images.indexOf(imageSelected) + 1] || "");
-        return;
-      case "prev":
-        if (imageSelected === images[0]) {
-          setImageSelected(images[images.length - 1]);
-          return;
-        }
-        setImageSelected(images[images.indexOf(imageSelected) - 1] || "");
-        return;
-    }
+  if (!images.length) return null;
+
+  const prev = () => {
+    setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const next = () => {
+    setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
   return (
-    <div className="item-img-container">
-      <div className="item-img-control-container">
-        <span
-          className="item-img-control-btn left"
-          onClick={() => slidePage("prev")}>
-          {"<"}
-        </span>
-        <img
-          className="item-img"
-          src={imageSelected}
-          alt="Selected"
-        />
-        <span
-          className="item-img-control-btn right"
-          onClick={() => slidePage("next")}>
-          {">"}
-        </span>
+    <div className="gallery">
+      <div className="main-image">
+        <button className="nav-btn prev" onClick={prev}>
+          ‹
+        </button>
+
+        <img src={images[current]} alt="Product" />
+
+        <button className="nav-btn next" onClick={next}>
+          ›
+        </button>
       </div>
-      <div className="img-selected-container">
-        {images.map((url) => (
-          <span
-            key={url}
-            className={`img-selector ${
-              imageSelected === url ? "selected" : ""
-            }`}
-          />
-        ))}
-      </div>
+
+      {images.length > 1 && (
+        <div className="thumbnails">
+          {images.map((img, index) => (
+            <button
+              key={index}
+              className={`thumb ${index === current ? "active" : ""}`}
+              onClick={() => setCurrent(index)}
+            >
+              <img src={img} alt="" />
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

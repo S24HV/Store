@@ -1,91 +1,118 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-
-import { IProduct, SortEnum } from "../../types/products.api.interface";
-
-import Pagenation from "../../components/pagenation/pagenation.component";
+import { useEffect, useState, useCallback } from "react";
+import { useSearchParams, Link } from "react-router-dom";
+import { IProduct } from "../../types/products.api.interface";
 import ProductItem from "../../components/product-item/product-item.component";
-
-import "./page.scss";
 import { getProductsPage } from "../../services/products.requests";
+import { SortEnum } from "../../types/products.api.interface";
+import "./page.scss";
 
-type CategoryRouteParams = {
-  page: string;
+const CATEGORY_PATH: Record<string, string[]> = {
+  tops: ["HOME", "WOMEN", "CATEGORIES", "TOPS"],
+  "womens-dresses": ["HOME", "WOMEN", "CATEGORIES", "DRESSES"],
+  "womens-shoes": ["HOME", "WOMEN", "CATEGORIES", "SHOES"],
+  "womens-bags": ["HOME", "WOMEN", "CATEGORIES", "BAGS"],
+  "womens-jewellery": ["HOME", "WOMEN", "CATEGORIES", "JEWELLERY"],
+  "womens-watches": ["HOME", "WOMEN", "CATEGORIES", "WATCHES"],
+  "mens-shirts": ["HOME", "MEN", "CATEGORIES", "SHIRTS"],
+  "mens-shoes": ["HOME", "MEN", "CATEGORIES", "SHOES"],
+  "mens-watches": ["HOME", "MEN", "CATEGORIES", "WATCHES"],
+  sunglasses: ["HOME", "ACCESSORIES", "CATEGORIES", "SUNGLASSES"],
+  beauty: ["HOME", "BEAUTY", "CATEGORIES", "BEAUTY"],
+  "skin-care": ["HOME", "BEAUTY", "CATEGORIES", "SKIN CARE"],
+  fragrances: ["HOME", "BEAUTY", "CATEGORIES", "FRAGRANCES"],
+  "home-decoration": ["HOME", "HOME", "CATEGORIES", "DECORATION"],
+  furniture: ["HOME", "HOME", "CATEGORIES", "FURNITURE"],
+  "kitchen-accessories": ["HOME", "HOME", "CATEGORIES", "KITCHEN"],
+  all: ["HOME", "ALL PRODUCTS"],
 };
 
 const ProductsPage = () => {
-  const nav = useNavigate();
-  const [sortType, setSortType] = useState(SortEnum.default);
+  const [searchParams] = useSearchParams();
   const [products, setProducts] = useState<IProduct[]>([]);
-  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const { page } = useParams<
-    keyof CategoryRouteParams
-  >() as CategoryRouteParams;
-  const limit = 12;
+  const category = searchParams.get("category");
+  const search = searchParams.get("search");
+  const hasQuery = Boolean(category || search);
+
+  const path = search
+    ? ["HOME", "SEARCH", search.toUpperCase()]
+    : category
+    ? CATEGORY_PATH[category] || ["HOME", category.toUpperCase()]
+    : [];
+
+  const fetchProducts = useCallback(async () => {
+    if (!hasQuery) {
+      setProducts([]);
+      setError(null);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await getProductsPage(1, 30, SortEnum.default, category, search);
+      setProducts(res.products || []);
+    } catch (err) {
+      console.error(err);
+      setProducts([]);
+      setError("Failed to load products. Check your connection.");
+    } finally {
+      setLoading(false);
+    }
+  }, [category, search, hasQuery]);
 
   useEffect(() => {
-    (async () => {
-      const productsRes = await getProductsPage(Number(page), limit, sortType);
-      setProducts(productsRes.products);
-      setTotal(productsRes.total);
-    })();
-  }, [page, sortType]);
+    fetchProducts();
+  }, [fetchProducts]);
 
-  const chosePage = (page: number): void => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-    nav(`/${page}`);
-  };
+  if (!hasQuery) {
+    return <div className="shop-page empty" />;
+  }
 
   return (
-    <div>
-      <div className="sort-container">
-        <span
-          className={sortType === "name" ? "selected" : ""}
-          onClick={() =>
-            setSortType(sortType === "name" ? SortEnum.default : SortEnum.name)
-          }>
-          Sort by name
-        </span>
-        <span
-          className={sortType === "price" ? "selected" : ""}
-          onClick={() =>
-            setSortType(
-              sortType === "price" ? SortEnum.default : SortEnum.price
-            )
-          }>
-          Sort by price
-        </span>
-        <span
-          className={sortType === "stock" ? "selected" : ""}
-          onClick={() =>
-            setSortType(
-              sortType === "stock" ? SortEnum.default : SortEnum.stock
-            )
-          }>
-          Sort by stock
-        </span>
-      </div>
-
-      <div className="products-container">
-        {products.map((product, i) => (
-          <ProductItem
-            key={product.id}
-            item={product}
-          />
+    <div className="shop-page">
+      
+      <div className="breadcrumb">
+        {path.map((item, index) => (
+          <span key={index}>
+            {index > 0 && <span className="separator"> / </span>}
+            {index === 0 ? (
+              <Link to="/shop">{item}</Link>
+            ) : (
+              <span className={index === path.length - 1 ? "current" : ""}>
+                {item}
+              </span>
+            )}
+          </span>
         ))}
       </div>
 
-      <Pagenation
-        currentPage={Number(page)}
-        itemsQuantity={total}
-        chosePage={chosePage}
-        limit={limit}
-      />
+      {loading && <div className="loading">Loading...</div>}
+
+      {error && (
+        <div className="error-state">
+          <p>{error}</p>
+          <button className="retry-btn" onClick={fetchProducts}>
+            Retry
+          </button>
+        </div>
+      )}
+
+      {!loading && !error && (
+        <div className="products-grid">
+          {products.length > 0 ? (
+            products.map((product) => (
+              <ProductItem key={product.id} item={product} />
+            ))
+          ) : (
+            <div className="loading">No products found</div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

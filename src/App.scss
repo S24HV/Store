@@ -1,22 +1,70 @@
-body {
+* {
   margin: 0;
-  background: whitesmoke;
-  font-family: "Poppins", sans-serif;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  &::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.3);
-    margin-right: 5px;
-  }
+html,
+body {
+  height: 100%;
+}
 
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
+body {
+  background: #111;
+  color: #f2f2f2;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-  &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: rgba(83, 83, 83, 0.8);
-  }
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: transparent;
+}
+
+
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 1;
+  pointer-events: none;
+}
+
+main {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+  background: transparent;
 }
