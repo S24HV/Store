@@ -17,6 +17,15 @@
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.5",
     "scss": "^0.2.4"
+
+    "scripts": {
+  "dev": "vite",
+  "build": "tsc -b && vite build",
+  "lint": "eslint .",
+  "preview": "vite preview",
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d dist"
+}
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
