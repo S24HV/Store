@@ -104,3 +104,4 @@ The base path is set in `vite.config.ts` (`base: "/Store"`) — keep it in sync 
 [![Email](https://img.shields.io/badge/amirsuhov@gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:amirsuhov@gmail.com)
 [![Telegram](https://img.shields.io/badge/@S__24__HV-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/S_24_HV)
 [![GitHub](https://img.shields.io/badge/S24HV-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/S24HV)
+.
